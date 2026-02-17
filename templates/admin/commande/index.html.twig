@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+{% block title %}Admin • Commandes{% endblock %}
+
+{% block body %}
+<div style="max-width:1100px;margin:20px auto;padding:0 14px;font-family:system-ui;">
+  <h1 style="margin:0 0 10px 0;">🧾 Commandes</h1>
+
+  <form method="get" style="display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 16px 0;">
+    <select name="status" style="padding:10px 12px;border-radius:12px;border:1px solid #ddd;">
+      <option value="">— Todos os status —</option>
+      {% for s in statuses %}
+        <option value="{{ s }}" {{ status == s ? 'selected' : '' }}>{{ s }}</option>
+      {% endfor %}
+    </select>
+    <button style="padding:10px 14px;border-radius:12px;border:1px solid #ddd;background:#fff;cursor:pointer;">Filtrar</button>
+    <a href="{{ path('admin_commande_index') }}" style="padding:10px 14px;border-radius:12px;border:1px solid #ddd;text-decoration:none;color:#111;background:#fff;">Limpar</a>
+  </form>
+
+  {% for label, messages in app.flashes %}
+    {% for msg in messages %}
+      <div style="padding:10px 12px;border-radius:12px;margin:10px 0;border:1px solid #ddd;background:#f7f7f7;">
+        <strong>{{ label }}</strong> — {{ msg }}
+      </div>
+    {% endfor %}
+  {% endfor %}
+
+  <div style="overflow:auto;border:1px solid #eee;border-radius:14px;">
+    <table style="width:100%;border-collapse:collapse;min-width:900px;">
+      <thead>
+        <tr style="background:#fafafa;">
+          <th style="text-align:left;padding:12px;border-bottom:1px solid #eee;">#</th>
+          <th style="text-align:left;padding:12px;border-bottom:1px solid #eee;">Utilizador</th>
+          <th style="text-align:left;padding:12px;border-bottom:1px solid #eee;">Status</th>
+          <th style="text-align:left;padding:12px;border-bottom:1px solid #eee;">Total</th>
+          <th style="text-align:left;padding:12px;border-bottom:1px solid #eee;">Criado</th>
+          <th style="text-align:left;padding:12px;border-bottom:1px solid #eee;">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in commandes %}
+          <tr>
+            <td style="padding:12px;border-bottom:1px solid #f0f0f0;">{{ c.id }}</td>
+            <td style="padding:12px;border-bottom:1px solid #f0f0f0;">{{ c.user.userIdentifier ?? '—' }}</td>
+            <td style="padding:12px;border-bottom:1px solid #f0f0f0;">
+              <span style="padding:6px 10px;border-radius:999px;border:1px solid #ddd;background:#fff;">{{ c.status }}</span>
+            </td>
+            <td style="padding:12px;border-bottom:1px solid #f0f0f0;">{{ c.totalAmount }}</td>
+            <td style="padding:12px;border-bottom:1px solid #f0f0f0;">{{ c.createdAt|date('Y-m-d H:i') }}</td>
+            <td style="padding:12px;border-bottom:1px solid #f0f0f0;">
+              <a href="{{ path('admin_commande_show', {id: c.id}) }}" style="text-decoration:none;">Ver →</a>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="6" style="padding:14px;color:#666;">Sem commandes.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

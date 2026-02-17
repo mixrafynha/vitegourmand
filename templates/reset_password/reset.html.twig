@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nova senha{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="card">
+        <h1>Definir nova senha</h1>
+
+        {{ form_start(resetForm) }}
+            {{ form_row(resetForm.plainPassword.first) }}
+            {{ form_row(resetForm.plainPassword.second) }}
+            <button class="btn">Salvar nova senha</button>
+        {{ form_end(resetForm) }}
+    </div>
+</div>
+
+<style>
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f3f4f6;
+    padding: 16px;
+}
+.card {
+    background: #fff;
+    padding: 32px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,.1);
+}
+.card h1 { margin-bottom: 20px; }
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #16a34a;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+</style>
+{% endblock %}

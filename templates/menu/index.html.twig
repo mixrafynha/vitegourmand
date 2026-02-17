@@ -1,0 +1,448 @@
+{# templates/menu/index.html.twig #}
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo - Vite & Gourmand</title>
+  <link rel="stylesheet" href="{{ asset('css/stylemenus.css') }}">
+
+  <style>
+    /* ✅ Avatar dropdown */
+    .nav-user{ position: relative; }
+
+    .user-btn{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,.10);
+      background: rgba(255,255,255,.85);
+      cursor:pointer;
+      font-weight: 800;
+    }
+    .user-btn:hover{ background: #fff; }
+
+    .user-avatar{
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background: #111;
+      color:#fff;
+      font-weight: 900;
+      font-size: 13px;
+      flex: 0 0 auto;
+    }
+    .user-name{
+      max-width: 160px;
+      overflow:hidden;
+      white-space:nowrap;
+      text-overflow:ellipsis;
+      font-size: 14px;
+    }
+    .user-caret{ opacity:.7; }
+
+    .user-menu{
+      position:absolute;
+      right: 0;
+      top: calc(100% + 10px);
+      width: 240px;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.10);
+      border-radius: 14px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.18);
+      padding: 8px;
+      display:none;
+      z-index: 9999;
+    }
+    .user-menu a{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding: 10px 10px;
+      border-radius: 12px;
+      text-decoration:none;
+      color:#111;
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .user-menu a:hover{ background: rgba(0,0,0,.05); }
+    .user-menu.open{ display:block; }
+
+    @media (max-width: 520px){
+      .user-name{ display:none; }
+      .user-btn{ padding: 6px 8px; }
+    }
+
+    /* ✅ Botão 🛒 NO NAV */
+    .nav-cart-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,.10);
+      background: rgba(255,255,255,.85);
+      cursor:pointer;
+      font-weight: 900;
+    }
+    .nav-cart-btn:hover{ background:#fff; }
+    .nav-cart-count{
+      min-width: 22px;
+      height: 22px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius: 999px;
+      background:#e11d48;
+      color:#fff;
+      font-size: 12px;
+      font-weight: 1000;
+      padding: 0 6px;
+    }
+
+    /* 🛒 Cart UI (FAB + modal) */
+    .cart-fab{
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 22px;
+      background: #111;
+      color: #fff;
+      box-shadow: 0 14px 40px rgba(0,0,0,.25);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index: 9999;
+    }
+    .cart-badge{
+      position:absolute;
+      top: -6px;
+      right: -6px;
+      background:#e11d48;
+      color:#fff;
+      font-size: 12px;
+      font-weight: 900;
+      padding: 4px 7px;
+      border-radius: 999px;
+      border: 2px solid #fff;
+    }
+    .cart-modal{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      z-index: 9999;
+      padding: 14px;
+      display:none;
+      align-items:flex-end;
+      justify-content:center;
+    }
+
+    .cart-panel{
+      width: min(520px, 100%);
+      background: #fff;
+      border-radius: 16px;
+      overflow:hidden;
+      box-shadow: 0 18px 70px rgba(0,0,0,.35);
+    }
+    .cart-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 14px 14px;
+      border-bottom: 1px solid #eee;
+    }
+    .cart-x{ border:none; background: transparent; cursor:pointer; font-size: 16px; }
+    .cart-items{
+      max-height: 52vh;
+      overflow:auto;
+      padding: 10px 14px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .cart-item{
+      display:flex;
+      gap: 10px;
+      border: 1px solid #eee;
+      border-radius: 14px;
+      padding: 10px;
+    }
+    .cart-item img{
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: #f4f4f4;
+    }
+    .cart-item .meta{ flex:1; min-width:0; }
+    .cart-item .meta strong{
+      display:block;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .cart-item .meta small{ color:#64748b; font-weight:700; }
+    .cart-qty{ display:flex; align-items:center; gap: 8px; }
+    .cart-qty button{
+      width: 32px; height: 32px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      background: #fff;
+      cursor:pointer;
+      font-weight:900;
+    }
+    .cart-qty button:disabled{ opacity:.45; cursor:not-allowed; }
+    .cart-qty span{ min-width: 18px; text-align:center; font-weight:900; }
+    .cart-del{ border:none; background: transparent; cursor:pointer; font-size: 16px; opacity:.75; }
+    .cart-footer{ border-top: 1px solid #eee; padding: 12px 14px 14px; }
+    .cart-total{ display:flex; align-items:center; justify-content:space-between; font-size: 14px; margin-bottom: 10px; }
+    .cart-actions{ display:flex; gap: 10px; }
+    .cart-btn{
+      flex:1;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      background:#fff;
+      cursor:pointer;
+      font-weight: 900;
+      text-decoration:none;
+      text-align:center;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+    .cart-btn.primary{ border-color: #111; background: #111; color:#fff; }
+    .cart-msg{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius: 12px;
+      background: rgba(2,132,199,.08);
+      border: 1px solid rgba(2,132,199,.20);
+      color: #075985;
+      font-weight: 800;
+      font-size: 13px;
+      display:none;
+    }
+    @media (min-width: 900px){
+      .cart-modal{ align-items:center; }
+    }
+
+    /* ✅ Modal “pedido criado” */
+    .order-info{ padding: 12px 14px; }
+    .order-info p{ margin:0 0 10px 0; font-weight: 900; }
+    .order-sub{ color:#64748b; font-weight:800; font-size: 13px; margin-top: 8px; }
+    .order-actions{ display:flex; gap: 10px; flex-wrap:wrap; }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+    <nav class="main-nav">
+      <div class="nav-left">
+        <a href="{{ path('app_home') }}" class="nav-logo">Vite & Gourmand</a>
+      </div>
+
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+
+      <div class="nav-center" id="nav-menu">
+        <ul class="nav-links">
+          <li><a href="{{ path('app_home') }}">Accueil</a></li>
+          <li><a href="{{ path('app_menu') }}" class="active">Menus</a></li>
+          <li><a href="{{ path('app_contact') }}">Contact</a></li>
+          <span></span>
+
+          {# ✅ Botão carrinho NO NAV (aparece quando tem itens) #}
+          <li id="nav-cart-item" style="display:none;">
+            <button id="navCartBtn" type="button" class="nav-cart-btn" aria-label="Abrir carrinho">
+              🛒 <span id="navCartCount" class="nav-cart-count">0</span>
+            </button>
+          </li>
+
+          {# ✅ Login (JS mostra/oculta) #}
+          <li id="nav-login-item" style="display:none;">
+            <a href="{{ path('app_login') }}" class="connexion" id="loginLink">Connexion</a>
+          </li>
+
+          {# ✅ User (JS mostra/oculta) #}
+          <li id="nav-user-item" class="nav-user" style="display:none;">
+            <button class="user-btn" type="button" id="userBtn" aria-haspopup="menu" aria-expanded="false">
+              <span class="user-avatar" id="userAvatar">U</span>
+              <span class="user-name" id="userName">Compte</span>
+              <span class="user-caret">▾</span>
+            </button>
+
+            <div class="user-menu" id="userMenu" role="menu" aria-label="Menu utilisateur">
+              <a role="menuitem" href="/dashboard" id="accountLink">👤 Mon compte</a>
+              <a role="menuitem" href="/profile" id="profileLink">⚙️ Modifier le profil</a>
+              <a role="menuitem" href="/orders">🧾 Mes commandes</a>
+              <a role="menuitem" href="{{ path('app_logout') }}" id="logoutLink">🚪 Logout</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- ✅ FILTROS -->
+    <section class="menu-filters" style="margin:18px 0; display:flex; gap:10px; flex-wrap:wrap; align-items:end;">
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <label for="q"><strong>Rechercher</strong></label>
+        <input id="q" type="text" placeholder="pizza, burger..." style="padding:10px; border-radius:10px; border:1px solid #ddd;">
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <label for="minPrice"><strong>Prix min</strong></label>
+        <input id="minPrice" type="number" step="0.01" placeholder="0" style="padding:10px; border-radius:10px; border:1px solid #ddd; width:120px;">
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <label for="maxPrice"><strong>Prix max</strong></label>
+        <input id="maxPrice" type="number" step="0.01" placeholder="50" style="padding:10px; border-radius:10px; border:1px solid #ddd; width:120px;">
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <label for="sort"><strong>Trier</strong></label>
+        <select id="sort" style="padding:10px; border-radius:10px; border:1px solid #ddd;">
+          <option value="createdAt|DESC">Plus récents</option>
+          <option value="price|ASC">Prix (croissant)</option>
+          <option value="price|DESC">Prix (décroissant)</option>
+          <option value="name|ASC">Nom (A→Z)</option>
+        </select>
+      </div>
+
+      <button id="btnApply" style="padding:10px 14px; border-radius:10px; border:none; cursor:pointer;">
+        Appliquer
+      </button>
+
+      <div id="menusStatus" style="margin-left:auto; font-weight:700;"></div>
+    </section>
+
+    <div id="menuGrid" class="menu-grid"></div>
+
+    <!-- 🛒 FAB -->
+    <button id="cartFab" class="cart-fab" type="button" aria-label="Abrir carrinho">
+      🛒
+      <span id="cartBadge" class="cart-badge">0</span>
+    </button>
+
+    <!-- 🛒 Cart modal -->
+    <div id="cartModal" class="cart-modal" style="display:none;" onclick="closeCart(event)">
+      <div class="cart-panel" onclick="event.stopPropagation()">
+        <div class="cart-head">
+          <strong>Seu carrinho</strong>
+          <button type="button" class="cart-x" onclick="closeCart()">✕</button>
+        </div>
+
+        <div id="cartItems" class="cart-items"></div>
+
+        <div class="cart-footer">
+          <div class="cart-total">
+            <span>Total</span>
+            <strong id="cartTotal">€0.00</strong>
+          </div>
+
+          <div class="cart-actions">
+            <button type="button" class="cart-btn" onclick="clearCart()">Vider</button>
+            <button type="button" class="cart-btn primary" onclick="checkout()">Finaliser la commande</button>
+          </div>
+
+          <div id="cartMsg" class="cart-msg"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ Pedido criado -->
+    <div id="orderSuccessModal" class="cart-modal" style="display:none;" onclick="closeOrderSuccess(event)">
+      <div class="cart-panel" onclick="event.stopPropagation()">
+        <div class="cart-head">
+          <strong>✅ Pedido criado</strong>
+          <button type="button" class="cart-x" onclick="closeOrderSuccess()">✕</button>
+        </div>
+
+        <div class="order-info">
+          <p>O seu pedido foi criado com sucesso.</p>
+
+          <div class="order-actions">
+            <a id="btnGoPayment" class="cart-btn primary" href="#">
+              💳 Ir para pagamento
+            </a>
+            <a class="cart-btn" href="/orders">
+              🧾 Ver encomendas
+            </a>
+          </div>
+
+          <div id="orderSuccessInfo" class="order-sub"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL do item -->
+    <div id="menuModal" class="modal" style="display:none;" onclick="closeModal(event)">
+      <div class="modal-content-wrapper large" onclick="event.stopPropagation()">
+        <div class="modal-gallery">
+          <img id="modalImg" class="modal-main-img" alt="">
+          <div id="thumbnailGrid" class="thumbnail-grid"></div>
+        </div>
+
+        <div class="modal-info">
+          <h2 id="itemName"></h2>
+          <p id="itemDescription" class="description"></p>
+          <p><strong>Prix :</strong> <span id="itemPrice"></span></p>
+          <p><strong>Disponibilité :</strong> <span id="itemStock"></span></p>
+          <p><strong>Ingrédients :</strong> <span id="itemIngredients"></span></p>
+          <p><strong>Allergènes :</strong> <span id="itemAllergens"></span></p>
+
+          {# ✅ IDs nos botões para o JS bloquear com stock #}
+          <div class="quantity-control">
+            <button id="btnQtyMinus" type="button" onclick="changeQuantityModal(-1)">−</button>
+            <span id="modalQuantity">1</span>
+            <button id="btnQtyPlus" type="button" onclick="changeQuantityModal(1)">+</button>
+          </div>
+
+          <button id="btnAddFromModal" type="button" class="btn-cart" onclick="addToCartFromModal()">
+            Ajouter au panier
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-middle">
+        <span class="footer-hours">
+          Horaires : Lun–dim 11h–22h
+        </span>
+      </div>
+      <div class="footer-top">
+        © <span id="year"></span> <strong>Vite & Gourmand</strong> — Développé par <span class="brand">FastDev</span>
+      </div>
+      <div class="footer-links">
+        <a href="{{ path('app_mentions') }}" class="footer-link">Mentions légales</a>
+        <a href="{{ path('app_conditions') }}" class="footer-link">Conditions générales</a>
+        <a href="{{ path('app_cookies') }}" class="footer-link">Politique de cookies</a>
+      </div>
+    </div>
+  </footer>
+
+  {# ✅ Só scripts no fim #}
+  <script src="{{ asset('js/menu.js') }}"></script>
+</body>
+</html>

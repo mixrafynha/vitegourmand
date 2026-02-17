@@ -1,0 +1,18 @@
+# Symfony
+/.env.local
+/.env.*.local
+/.env.local.php
+/vendor/
+/var/
+/public/bundles/
+/public/uploads/
+/config/secrets/prod/prod.decrypt.private.php
+
+# PHPStorm / VSCode / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Node (se usar)
+node_modules/

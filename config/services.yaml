@@ -1,0 +1,29 @@
+parameters:
+  app.front_url: '%env(APP_FRONT_URL)%'
+  app.api_base_url: '%env(APP_API_BASE_URL)%'
+  uploads_dir: '%kernel.project_dir%/public/uploads'
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\:
+    resource: '../src/'
+    exclude:
+      - '../src/DependencyInjection/'
+      - '../src/Entity/'
+      - '../src/Kernel.php'
+
+  App\Controller\:
+    resource: '../src/Controller/'
+    tags: ['controller.service_arguments']
+
+  Symfony\Component\RateLimiter\RateLimiterFactory $anonymousApiLimiter: '@limiter.anonymous_api'
+
+  App\Service\PasswordResetService:
+    arguments:
+      $frontUrl: '%app.front_url%'
+      
+  App\Security\LoginSuccessHandler:
+    public: true

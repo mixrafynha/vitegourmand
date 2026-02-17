@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+{% block title %}Admin • Commande #{{ commande.id }}{% endblock %}
+
+{% block body %}
+<div style="max-width:900px;margin:20px auto;padding:0 14px;font-family:system-ui;">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+    <h1 style="margin:0;">🧾 Commande #{{ commande.id }}</h1>
+    <a href="{{ path('admin_commande_index') }}" style="text-decoration:none;border:1px solid #ddd;padding:10px 12px;border-radius:12px;color:#111;background:#fff;">← Voltar</a>
+  </div>
+
+  {% for label, messages in app.flashes %}
+    {% for msg in messages %}
+      <div style="padding:10px 12px;border-radius:12px;margin:10px 0;border:1px solid #ddd;background:#f7f7f7;">
+        <strong>{{ label }}</strong> — {{ msg }}
+      </div>
+    {% endfor %}
+  {% endfor %}
+
+  <div style="margin-top:12px;border:1px solid #eee;border-radius:14px;padding:14px;background:#fff;">
+    <p style="margin:0 0 6px 0;"><strong>Utilizador:</strong> {{ commande.user.userIdentifier ?? '—' }}</p>
+    <p style="margin:0 0 6px 0;"><strong>Status:</strong> {{ commande.status }}</p>
+    <p style="margin:0 0 6px 0;"><strong>Endereço:</strong> {{ commande.deliveryAddress ?? '—' }}</p>
+    <p style="margin:0 0 6px 0;"><strong>Delivery Fee:</strong> {{ commande.deliveryFee }}</p>
+    <p style="margin:0 0 6px 0;"><strong>Desconto (%):</strong> {{ commande.discountRate }}</p>
+    <p style="margin:0 0 6px 0;"><strong>Total:</strong> {{ commande.totalAmount }}</p>
+    <p style="margin:0;"><strong>Criado:</strong> {{ commande.createdAt|date('Y-m-d H:i') }}</p>
+  </div>
+
+  <div style="margin-top:12px;border:1px solid #eee;border-radius:14px;padding:14px;background:#fff;">
+    <h2 style="margin:0 0 10px 0;font-size:16px;">Itens</h2>
+    <ul style="margin:0;padding-left:18px;">
+      {% for item in commande.items %}
+        <li>
+          {{ item.menu.name ?? 'Item' }} — qtd: {{ item.quantity ?? '—' }} — preço: {{ item.unitPrice ?? '—' }}
+        </li>
+      {% else %}
+        <li style="color:#666;">Sem itens.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  {% if is_granted('ROLE_ADMIN') %}
+    <div style="margin-top:12px;border:1px solid #eee;border-radius:14px;padding:14px;background:#fff;">
+      <h2 style="margin:0 0 10px 0;font-size:16px;">Atualizar status</h2>
+
+      <form method="post" action="{{ path('admin_commande_status', {id: commande.id}) }}" style="display:flex;gap:10px;flex-wrap:wrap;">
+        <input type="hidden" name="_token" value="{{ csrf_token('commande_status_' ~ commande.id) }}">
+
+        <select name="status" style="padding:10px 12px;border-radius:12px;border:1px solid #ddd;">
+          {% for s in statuses %}
+            <option value="{{ s }}" {{ commande.status == s ? 'selected' : '' }}>{{ s }}</option>
+          {% endfor %}
+        </select>
+
+        <button style="padding:10px 14px;border-radius:12px;border:1px solid #ddd;background:#fff;cursor:pointer;">
+          Guardar
+        </button>
+      </form>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,338 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}S'inscrire{% endblock %}
+
+{% block body %}
+<div class="auth">
+  <div class="auth-card">
+
+    <div class="brand">
+      <img src="{{ asset('img/cook1.jpg') }}" alt="ViteGourmand" class="brand__logo">
+      <h1 class="brand__title">ViteGourmand</h1>
+      <p class="brand__subtitle">Créez votre compte en quelques secondes</p>
+    </div>
+
+    {{ form_start(registrationForm, {
+      'action': path('app_register'),
+      'method': 'POST',
+      'attr': { 'class': 'auth-form' }
+    }) }}
+
+      <div class="grid-2">
+        <div class="field">
+          {{ form_label(registrationForm.firstName, 'Prénom', {'label_attr': {'class': 'auth-label'}}) }}
+          {{ form_widget(registrationForm.firstName, {'attr': {'placeholder': 'Prénom', 'class': 'auth-input'}}) }}
+          <div class="field-error">{{ form_errors(registrationForm.firstName) }}</div>
+        </div>
+
+        <div class="field">
+          {{ form_label(registrationForm.lastName, 'Nom', {'label_attr': {'class': 'auth-label'}}) }}
+          {{ form_widget(registrationForm.lastName, {'attr': {'placeholder': 'Nom', 'class': 'auth-input'}}) }}
+          <div class="field-error">{{ form_errors(registrationForm.lastName) }}</div>
+        </div>
+      </div>
+
+      <div class="field">
+        {{ form_label(registrationForm.email, 'Adresse e-mail', {'label_attr': {'class': 'auth-label'}}) }}
+        {{ form_widget(registrationForm.email, {'attr': {'placeholder': 'votreemail@exemple.com', 'class': 'auth-input', 'autocomplete':'email'}}) }}
+        <div class="field-error">{{ form_errors(registrationForm.email) }}</div>
+      </div>
+
+      <div class="field">
+        {{ form_label(registrationForm.password.first, 'Mot de passe', {'label_attr': {'class': 'auth-label'}}) }}
+        {{ form_widget(registrationForm.password.first, {'attr': {'placeholder': 'Mot de passe', 'class': 'auth-input', 'autocomplete':'new-password'}}) }}
+        <div class="field-error">{{ form_errors(registrationForm.password.first) }}</div>
+      </div>
+
+      <div class="field">
+        {{ form_label(registrationForm.password.second, 'Confirmer le mot de passe', {'label_attr': {'class': 'auth-label'}}) }}
+        {{ form_widget(registrationForm.password.second, {'attr': {'placeholder': 'Confirmer le mot de passe', 'class': 'auth-input', 'autocomplete':'new-password'}}) }}
+        <div class="field-error">{{ form_errors(registrationForm.password.second) }}</div>
+      </div>
+
+      <div class="field-error field-error--global">
+        {{ form_errors(registrationForm.password) }}
+      </div>
+
+      <button type="submit" class="btn-primary">S'inscrire</button>
+
+       <a class="btn-google" href="{{ path('connect_google_start') }}">
+      <span class="google-icon" aria-hidden="true"></span>
+      Continuer avec Google
+    </a>
+
+    {{ form_end(registrationForm) }}
+
+    <div class="links">
+      <a href="{{ path('app_login') }}" class="link link--strong">Déjà un compte ? Se connecter</a>
+    </div>
+    
+
+  </div>
+</div>
+
+<style>
+body{
+  margin: 0px;
+}
+:root{
+  --bg1:#0b1220;
+  --bg2:#111b33;
+  --card:rgba(255,255,255,.92);
+  --text:#0f172a;
+  --muted:#64748b;
+  --border:rgba(15,23,42,.10);
+
+  --primary:#2563eb;
+  --primary2:#1d4ed8;
+  --ring:rgba(37,99,235,.25);
+
+  --danger:#dc2626;
+}
+
+/* Layout */
+.auth{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:18px;
+  background:
+    radial-gradient(1000px 500px at 10% 10%, rgba(37,99,235,.25), transparent 55%),
+    radial-gradient(900px 450px at 90% 20%, rgba(99,102,241,.22), transparent 55%),
+    linear-gradient(160deg, var(--bg1), var(--bg2));
+}
+
+.auth-card{
+  width:100%;
+  max-width:520px;
+  background:var(--card);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:16px;
+  box-shadow: 0 18px 60px rgba(0,0,0,.35), 0 2px 10px rgba(0,0,0,.12);
+  padding:32px;
+  backdrop-filter: blur(10px);
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* Brand */
+.brand{
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  margin-bottom:6px;
+}
+.brand__logo{
+  width:84px;
+  height:84px;
+  border-radius:999px;
+  object-fit:cover;
+  border: 3px solid rgba(255,255,255,.75);
+  box-shadow: 0 10px 24px rgba(0,0,0,.18);
+}
+.brand__title{
+  margin:0;
+  font-weight:900;
+  font-size:26px;
+  letter-spacing:-.02em;
+  color:var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Poppins", "Segoe UI", Roboto, Arial, sans-serif;
+}
+.brand__subtitle{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* ✅ Reset para garantir alinhamento e margens iguais */
+.auth-card, .auth-form, .field, .grid-2 { box-sizing: border-box; }
+.auth-card * { box-sizing: border-box; }
+
+.auth-form{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.grid-2{
+  width:100%;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:12px;
+  align-items: stretch;
+}
+
+/* Cada campo ocupa 100% e controla o espaçamento */
+.field{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin:0 !important;
+  min-width:0;              /* evita “overflow” no grid */
+}
+
+/* ✅ Labels centralizadas e responsivas */
+.auth-label{
+  display:block;
+  width:100%;
+  margin:0 !important;
+  text-align:left;
+  font-weight:800;
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.2;
+}
+
+/* ✅ Inputs sempre iguais e bem dentro */
+.auth-input{
+  display:block !important;
+  width:100% !important;
+  max-width:100% !important;
+  margin:0 !important;      /* mata margin do bootstrap */
+  padding:12px 12px !important;
+  border-radius:12px !important;
+  border:1px solid var(--border) !important;
+  background: rgba(255,255,255,.85) !important;
+  min-width:0 !important;   /* importante em grids */
+  font-size:15px !important;
+  color:var(--text) !important;
+  box-shadow:none !important;
+  outline:none !important;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .02s ease;
+}
+.auth-input::placeholder{ color: rgba(100,116,139,.75); }
+.auth-input:focus{
+  border-color: rgba(37,99,235,.55) !important;
+  box-shadow: 0 0 0 4px var(--ring) !important;
+}
+.auth-input:active{ transform: translateY(1px); }
+
+/* ✅ Se o Bootstrap estiver colocando wrappers com margin-bottom */
+.auth-form .mb-3,
+.auth-form .mb-4,
+.auth-form .form-group{
+  margin:0 !important;
+}
+
+/* Buttons */
+.btn-primary{
+  width:100%;
+  padding:12px 14px !important;
+  border:none !important;
+  border-radius:12px !important;
+  background: linear-gradient(135deg, var(--primary), var(--primary2)) !important;
+  color:#fff !important;
+  font-weight:900 !important;
+  font-size:16px !important;
+  cursor:pointer;
+  box-shadow: 0 10px 24px rgba(37,99,235,.25);
+  transition: transform .06s ease, filter .2s ease, box-shadow .2s ease;
+}
+.btn-primary:hover{
+  filter: brightness(1.02);
+  box-shadow: 0 12px 28px rgba(37,99,235,.32);
+}
+.btn-primary:active{ transform: translateY(1px); }
+
+.btn-google{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  width:100%;
+  padding:12px 14px !important;
+  border-radius:12px !important;
+  border:1px solid rgba(15,23,42,.12) !important;
+  background: rgba(255,255,255,.80) !important;
+  color: var(--text) !important;
+  font-weight:900 !important;
+  text-decoration:none;
+  transition: background .2s ease, transform .06s ease, box-shadow .2s ease;
+}
+.btn-google:hover{
+  background: rgba(255,255,255,1) !important;
+  box-shadow: 0 10px 22px rgba(15,23,42,.08);
+}
+.btn-google:active{ transform: translateY(1px); }
+
+.google-icon{
+  width:18px;
+  height:18px;
+  border-radius:6px;
+  display:inline-block;
+  background: conic-gradient(from 45deg,
+    #ea4335 0 25%,
+    #fbbc05 0 50%,
+    #34a853 0 75%,
+    #4285f4 0 100%);
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+/* Divider */
+.divider{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:4px 0 2px;
+  color:var(--muted);
+  font-size:12px;
+}
+.divider::before,
+.divider::after{
+  content:"";
+  height:1px;
+  flex:1;
+  background: rgba(100,116,139,.25);
+}
+.divider span{
+  padding:0 6px;
+  font-weight:800;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+
+/* Errors */
+.field-error :is(ul, li){ list-style:none; padding:0; margin:0; }
+.field-error{
+  margin:0 !important;
+  margin-top:6px !important;
+  color:var(--danger);
+  font-size:13px;
+  font-weight:800;
+  text-align:center;
+}
+.field-error--global{ margin-top:-6px !important; }
+
+/* Links */
+.links{
+  margin-top:6px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  text-align:center;
+}
+.link{
+  font-size:13px;
+  color:var(--muted);
+  text-decoration:none;
+  font-weight:700;
+}
+.link:hover{ text-decoration:underline; }
+.link--strong{
+  color: var(--primary);
+  font-weight:900;
+}
+
+/* Responsive */
+@media (max-width: 560px){
+  .auth-card{ padding:20px; border-radius:14px; }
+  .grid-2{ grid-template-columns: 1fr; }
+  .brand__title{ font-size:22px; }
+}
+</style>
+{% endblock %}
