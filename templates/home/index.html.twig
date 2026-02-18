@@ -124,9 +124,33 @@
 
       <div class="nav-center" id="nav-menu">
         <ul class="nav-links">
-          <li><a href="{{ path('app_home') }}" class="active">Accueil</a></li>
-          <li><a href="{{ path('app_menu') }}">Menus</a></li>
-          <li><a href="{{ path('app_contact') }}">Contact</a></li>
+          <li>
+            <a href="{{ path('app_home') }}" class="active nav-link">
+              <span class="nav-text">Accueil</span>
+              <span class="nav-icon">
+                🏠
+              </span>
+            </a>
+          </li>
+
+          <li>
+            <a href="{{ path('app_menu') }}" class="nav-link">
+              <span class="nav-text">Menus</span>
+              <span class="nav-icon">
+                🍽️
+              </span>
+            </a>
+          </li>
+
+<li>
+  <a href="{{ path('app_contact') }}" class="nav-link">
+    <span class="nav-text">Contact</span>
+    <span class="nav-icon">
+      📞
+    </span>
+  </a>
+</li>
+
           <span></span>
 
           <!-- ✅ Auth slot: Connexion ou Avatar -->
@@ -191,17 +215,17 @@
           <p>Chef Principal</p>
         </div>
         <div class="team-member">
-          <img src="{{ asset('img/cook1.jpg') }}" alt="Chef 2">
+          <img src="{{ asset('img/chef2.jpg') }}" alt="Chef 2">
           <h3>Marie Martin</h3>
           <p>Chef Pâtissière</p>
         </div>
         <div class="team-member">
-          <img src="{{ asset('img/cook3.jpg') }}" alt="Chef 3">
+          <img src="{{ asset('img/cook4.jpg') }}" alt="Chef 3">
           <h3>Lucas Bernard</h3>
           <p>Sommelier</p>
         </div>
         <div class="team-member">
-          <img src="{{ asset('img/cook4.jpg') }}" alt="Chef 4">
+          <img src="{{ asset('img/chef5.jpg') }}" alt="Chef 4">
           <h3>Claire Dubois</h3>
           <p>Maître d'hôtel</p>
         </div>
@@ -223,12 +247,12 @@
       <h2>DÉCOUVREZ LES MENUS</h2>
 
       <div class="menu-grid">
-        <a href="{{ path('app_menu') }}" class="menu-item"><img src="{{ asset('img/cook1.jpg') }}" alt="Menu 1"></a>
-        <a href="{{ path('app_menu') }}" class="menu-item"><img src="{{ asset('img/cook2.jpeg') }}" alt="Menu 2"></a>
+        <a href="{{ path('app_menu') }}" class="menu-item"><img src="{{ asset('img/1.jpg') }}" alt="Menu 1"></a>
+        <a href="{{ path('app_menu') }}" class="menu-item"><img src="{{ asset('img/2.avif') }}" alt="Menu 2"></a>
         <a href="{{ path('app_menu') }}" class="menu-item"><img src="{{ asset('img/cook3.jpg') }}" alt="Menu 3"></a>
-        <a href="{{ path('app_menu') }}" class="menu-item"><img src="{{ asset('img/cook4.jpg') }}" alt="Menu 4"></a>
-        <a href="{{ path('app_menu') }}" class="menu-item"><img src="{{ asset('img/cook1.jpg') }}" alt="Menu 5"></a>
-        <a href="{{ path('app_menu') }}" class="menu-item"><img src="{{ asset('img/cook2.jpeg') }}" alt="Menu 6"></a>
+        <a href="{{ path('app_menu') }}" class="menu-item"><img src="{{ asset('img/4.avif') }}" alt="Menu 4"></a>
+        <a href="{{ path('app_menu') }}" class="menu-item"><img src="{{ asset('img/5.jpg') }}" alt="Menu 5"></a>
+        <a href="{{ path('app_menu') }}" class="menu-item"><img src="{{ asset('img/6.jpg') }}" alt="Menu 6"></a>
         <a href="{{ path('app_menu') }}" class="menu-item"><img src="{{ asset('img/cook5.jpg') }}" alt="Menu 7"></a>
         <a href="{{ path('app_menu') }}" class="menu-item"><img src="{{ asset('img/cook6.jpg') }}" alt="Menu 8"></a>
       </div>
@@ -277,8 +301,44 @@
       </div>
     </div>
   </footer>
-
+  
   <script src="{{ asset('js/script.js') }}"></script>
+
+<script>
+  const hamburger = document.getElementById("hamburger");
+  const nav = document.getElementById("nav-menu");
+  const mainNav = document.querySelector(".main-nav");
+  const navLinks = document.querySelectorAll("#nav-menu a");
+
+  if (hamburger && nav && mainNav) {
+
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("active");
+      nav.classList.toggle("active");
+      mainNav.classList.toggle("menu-open"); // esconde logo
+    });
+
+    // Fecha ao clicar num link
+    navLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        hamburger.classList.remove("active");
+        nav.classList.remove("active");
+        mainNav.classList.remove("menu-open");
+      });
+    });
+
+    // Fecha ao clicar fora
+    document.addEventListener("click", (e) => {
+      if (!mainNav.contains(e.target)) {
+        hamburger.classList.remove("active");
+        nav.classList.remove("active");
+        mainNav.classList.remove("menu-open");
+      }
+    });
+
+  }
+</script>
+
 
   <script>
     // ✅ year
