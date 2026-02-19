@@ -35,11 +35,17 @@ class MenuController extends AbstractController
 
             /** @var UploadedFile|null $file */
             $file = $form->get('imageFile')->getData();
-            if ($file) {
-                $filename = uniqid('menu_', true) . '.' . ($file->guessExtension() ?: 'jpg');
-                $file->move($this->getParameter('uploads_dir'), $filename);
 
-                // guarda para o front/API
+            if ($file instanceof UploadedFile) {
+
+                $filename = uniqid('menu_', true) . '.' . ($file->guessExtension() ?: 'jpg');
+
+                $file->move(
+                    $this->getParameter('uploads_dir'),
+                    $filename
+                );
+
+                // 🔥 guarda na coluna image_url
                 $menu->setImageUrl('/uploads/' . $filename);
             }
 
@@ -47,6 +53,7 @@ class MenuController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Menu criado com sucesso.');
+
             return $this->redirectToRoute('admin_menu_index');
         }
 
@@ -58,7 +65,8 @@ class MenuController extends AbstractController
     #[Route('/{id}/edit', name: 'admin_menu_edit', methods: ['GET', 'POST'])]
     public function edit(Menu $menu, Request $request, EntityManagerInterface $em): Response
     {
-        $oldImageUrl = $menu->getImageUrl(); // para apagar se trocar
+        $oldImageUrl = $menu->getImageUrl();
+
         $form = $this->createForm(MenuType::class, $menu);
         $form->handleRequest($request);
 
@@ -66,15 +74,23 @@ class MenuController extends AbstractController
 
             /** @var UploadedFile|null $file */
             $file = $form->get('imageFile')->getData();
-            if ($file) {
+
+            if ($file instanceof UploadedFile) {
+
                 $filename = uniqid('menu_', true) . '.' . ($file->guessExtension() ?: 'jpg');
-                $file->move($this->getParameter('uploads_dir'), $filename);
+
+                $file->move(
+                    $this->getParameter('uploads_dir'),
+                    $filename
+                );
 
                 $menu->setImageUrl('/uploads/' . $filename);
 
-                // ✅ apaga a imagem antiga (se existia e era local)
+                // apagar imagem antiga
                 if ($oldImageUrl && str_starts_with($oldImageUrl, '/uploads/')) {
+
                     $oldPath = $this->getParameter('kernel.project_dir') . '/public' . $oldImageUrl;
+
                     $fs = new Filesystem();
                     if ($fs->exists($oldPath)) {
                         $fs->remove($oldPath);
@@ -84,7 +100,8 @@ class MenuController extends AbstractController
 
             $em->flush();
 
-            $this->addFlash('success', 'Menu atualizado com sucesso.');
+            $this->addFlash('success', 'Menu atualizado.');
+
             return $this->redirectToRoute('admin_menu_index');
         }
 
@@ -97,16 +114,17 @@ class MenuController extends AbstractController
     #[Route('/{id}/delete', name: 'admin_menu_delete', methods: ['POST'])]
     public function delete(Menu $menu, Request $request, EntityManagerInterface $em): Response
     {
-        // ✅ CSRF protection (recomendado)
         if (!$this->isCsrfTokenValid('delete_menu_' . $menu->getId(), (string) $request->request->get('_token'))) {
-            $this->addFlash('error', 'Token CSRF inválido.');
+            $this->addFlash('error', 'Token CSRF invalide.');
             return $this->redirectToRoute('admin_menu_index');
         }
 
-        // apagar ficheiro local (se houver)
         $imageUrl = $menu->getImageUrl();
+
         if ($imageUrl && str_starts_with($imageUrl, '/uploads/')) {
+
             $path = $this->getParameter('kernel.project_dir') . '/public' . $imageUrl;
+
             $fs = new Filesystem();
             if ($fs->exists($path)) {
                 $fs->remove($path);
@@ -116,7 +134,8 @@ class MenuController extends AbstractController
         $em->remove($menu);
         $em->flush();
 
-        $this->addFlash('success', 'Menu apagado.');
+        $this->addFlash('success', 'Menu supprimé.');
+
         return $this->redirectToRoute('admin_menu_index');
     }
 }
