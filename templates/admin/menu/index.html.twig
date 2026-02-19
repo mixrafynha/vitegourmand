@@ -5,223 +5,193 @@
 {% block body %}
 <style>
 :root{
-  --bg:#0b1220;
-  --card:rgba(255,255,255,.92);
-  --text:#0f172a;
-  --muted:#64748b;
-  --border:rgba(15,23,42,.12);
-  --shadow:0 18px 60px rgba(0,0,0,.18),0 2px 10px rgba(0,0,0,.08);
   --primary:#2563eb;
   --primary2:#1d4ed8;
   --danger:#dc2626;
   --success:#16a34a;
   --warning:#f59e0b;
-  --ring:rgba(37,99,235,.20);
+  --muted:#64748b;
 }
 
 .adm-wrap{
   min-height:100vh;
-  padding:18px;
-  background:
-    radial-gradient(1000px 500px at 10% 10%, rgba(37,99,235,.18), transparent 55%),
-    radial-gradient(900px 450px at 90% 20%, rgba(99,102,241,.15), transparent 55%),
-    linear-gradient(160deg,#0b1220,#111b33);
+  padding:14px;
+  background:linear-gradient(160deg,#0b1220,#111b33);
 }
 
 .adm-container{
-  max-width:1100px;
+  max-width:1000px;
   margin:0 auto;
   display:flex;
   flex-direction:column;
-  gap:14px;
+  gap:12px;
 }
 
 .adm-topbar{
-  background:rgba(255,255,255,.10);
-  border:1px solid rgba(255,255,255,.14);
-  border-radius:16px;
-  padding:16px;
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  backdrop-filter:blur(10px);
-}
-
-.adm-title h1{
-  margin:0;
-  font-size:22px;
-  font-weight:900;
-  color:#fff;
-}
-.adm-title p{
-  margin:0;
-  font-size:13px;
-  color:rgba(255,255,255,.75);
-  font-weight:700;
-}
-
-.adm-actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.btn{
-  border:none;
-  border-radius:12px;
-  padding:10px 14px;
-  font-weight:900;
-  cursor:pointer;
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-}
-
-.btn-primary{
-  color:#fff;
-  background:linear-gradient(135deg,var(--primary),var(--primary2));
-}
-.btn-secondary{
-  color:#fff;
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.18);
-}
-
-.adm-card{
-  background:var(--card);
-  border-radius:16px;
-  box-shadow:var(--shadow);
-  overflow:hidden;
-}
-
-.adm-toolbar{
+  background:rgba(255,255,255,.08);
+  border-radius:14px;
   padding:14px;
   display:flex;
   justify-content:space-between;
   flex-wrap:wrap;
   gap:10px;
-  border-bottom:1px solid rgba(15,23,42,.08);
 }
 
-.search input{
-  padding:10px 12px;
-  border-radius:12px;
-  border:1px solid var(--border);
-  font-weight:700;
-  width:220px;
+.adm-title h1{
+  margin:0;
+  font-size:18px;
+  font-weight:800;
+  color:#fff;
+}
+.adm-title p{
+  margin:2px 0 0;
+  font-size:12px;
+  color:rgba(255,255,255,.7);
 }
 
-.stats{
+.adm-actions{
   display:flex;
-  gap:10px;
+  gap:8px;
   flex-wrap:wrap;
 }
 
-.pill{
+.btn{
+  border:none;
+  border-radius:10px;
   padding:8px 12px;
-  border-radius:999px;
   font-size:12px;
-  font-weight:900;
+  font-weight:700;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  color:#fff;
+}
+.btn-secondary{
+  background:rgba(255,255,255,.15);
+  color:#fff;
+}
+
+.adm-card{
   background:#fff;
+  border-radius:14px;
+  overflow:hidden;
+}
+
+.adm-toolbar{
+  padding:10px;
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px;
+  border-bottom:1px solid #eee;
+}
+
+.search input{
+  padding:6px 10px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  font-size:12px;
+}
+
+.pill{
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
+  background:#f3f4f6;
 }
 
 table{
   width:100%;
   border-collapse:collapse;
+  font-size:13px;
 }
 
 thead th{
-  font-size:12px;
-  text-align:left;
-  padding:12px;
-  background:rgba(15,23,42,.04);
+  padding:8px;
+  background:#f9fafb;
+  font-size:11px;
+  text-transform:uppercase;
 }
 
 tbody td{
-  padding:12px;
-  border-bottom:1px solid rgba(15,23,42,.06);
-  font-weight:700;
+  padding:8px;
+  border-bottom:1px solid #f1f1f1;
 }
 
 .img{
-  width:64px;
-  height:44px;
+  width:55px;
+  height:40px;
   object-fit:cover;
-  border-radius:10px;
-  display:block;
+  border-radius:8px;
 }
 
 .badge{
-  padding:6px 10px;
+  padding:4px 8px;
   border-radius:999px;
-  font-size:12px;
-  font-weight:900;
+  font-size:11px;
+  font-weight:700;
 }
 
-.badge-success{background:rgba(22,163,74,.15);color:var(--success);}
-.badge-danger{background:rgba(220,38,38,.15);color:var(--danger);}
-.badge-warn{background:rgba(245,158,11,.15);color:#92400e;}
-.badge-muted{background:rgba(100,116,139,.15);color:#334155;}
+.badge-success{background:#dcfce7;color:var(--success);}
+.badge-danger{background:#fee2e2;color:var(--danger);}
+.badge-warn{background:#fef3c7;color:#92400e;}
+.badge-muted{background:#e5e7eb;color:#374151;}
 
 .row-actions{
   display:flex;
-  gap:8px;
+  gap:6px;
   justify-content:flex-end;
   flex-wrap:wrap;
 }
 
 .btn-mini{
-  padding:8px 10px;
-  border-radius:10px;
-  font-size:12px;
-  font-weight:900;
-  background:#fff;
-  border:1px solid rgba(15,23,42,.10);
+  padding:6px 8px;
+  font-size:11px;
+  border-radius:8px;
+  background:#f3f4f6;
   text-decoration:none;
 }
 
 .btn-mini-primary{color:var(--primary2);}
 .btn-mini-danger{color:var(--danger);}
 
-.cards{display:none;padding:14px;gap:12px;}
+.cards{display:none;padding:10px;gap:8px;}
 
 .card-item{
-  border:1px solid rgba(15,23,42,.10);
-  border-radius:14px;
-  padding:12px;
-  display:flex;
-  gap:12px;
-  background:#fff;
-}
-
-.card-item h3{margin:0;font-size:14px;font-weight:900;}
-.card-item p{margin:6px 0 0;font-size:12px;color:var(--muted);font-weight:800;}
-
-.card-meta{
+  border:1px solid #eee;
+  border-radius:12px;
+  padding:8px;
   display:flex;
   gap:8px;
-  flex-wrap:wrap;
-  margin-top:8px;
+}
+
+.card-item h3{
+  margin:0;
+  font-size:13px;
+  font-weight:700;
+}
+.card-item p{
+  margin:2px 0;
+  font-size:12px;
+  color:var(--muted);
 }
 
 /* RESPONSIVE */
 
-@media (max-width:992px){
-  .adm-topbar{flex-direction:column;align-items:flex-start;}
-  .adm-actions{width:100%;}
-  .search input{width:100%;}
-}
-
-@media (max-width:760px){
+@media (max-width:768px){
   .table-wrap{display:none;}
   .cards{display:flex;flex-direction:column;}
 }
 
 @media (max-width:480px){
-  .adm-wrap{padding:10px;}
+  .adm-wrap{padding:8px;}
+  .img{width:100%;height:auto;max-height:120px;}
   .card-item{flex-direction:column;}
-  .img{width:100%;height:auto;max-height:160px;}
   .btn-mini{width:100%;text-align:center;}
 }
 </style>
@@ -231,11 +201,11 @@ tbody td{
 
 <div class="adm-topbar">
   <div class="adm-title">
-    <h1>Dashboard Menus</h1>
-    <p>Gère tes menus, stock et visibilité</p>
+    <h1>Menus</h1>
+    <p>Gestion rapide</p>
   </div>
   <div class="adm-actions">
-    <a class="btn btn-secondary" href="{{ path('admin_dashboard') }}">← Admin</a>
+    <a class="btn btn-secondary" href="{{ path('admin_dashboard') }}">Admin</a>
     <a class="btn btn-primary" href="{{ path('admin_menu_new') }}">+ Nouveau</a>
   </div>
 </div>
@@ -249,7 +219,7 @@ tbody td{
   <div class="search">
     <input id="menuSearch" type="text" placeholder="Rechercher...">
   </div>
-  <div class="stats">
+  <div style="display:flex;gap:6px;">
     <span class="pill">Total {{ total }}</span>
     <span class="pill">Actifs {{ activeCount }}</span>
   </div>
@@ -264,7 +234,7 @@ tbody td{
 <th>Prix</th>
 <th>Stock</th>
 <th>Actif</th>
-<th style="text-align:right;">Actions</th>
+<th></th>
 </tr>
 </thead>
 <tbody>
@@ -272,17 +242,17 @@ tbody td{
 {% set stock = menu.stock ?? 0 %}
 <tr class="menu-row" data-name="{{ menu.name|lower }}">
 <td>
-{% if menu.image %}
-<img class="img" src="{{ absolute_url(asset('uploads/' ~ menu.image)) }}" alt="{{ menu.name }}">
+{% if menu.imageUrl %}
+<img class="img" src="{{ absolute_url(menu.imageUrl) }}">
 {% else %}
-<img class="img" src="{{ absolute_url(asset('uploads/default.jpg')) }}" alt="">
+<img class="img" src="{{ absolute_url('/uploads/default.jpg') }}">
 {% endif %}
 </td>
 <td>{{ menu.name }}</td>
 <td>€{{ menu.price }}</td>
 <td>
 {% if stock == 0 %}
-<span class="badge badge-danger">Rupture</span>
+<span class="badge badge-danger">0</span>
 {% elseif stock < 5 %}
 <span class="badge badge-warn">{{ stock }}</span>
 {% else %}
@@ -298,10 +268,10 @@ tbody td{
 </td>
 <td>
 <div class="row-actions">
-<a class="btn-mini btn-mini-primary" href="{{ path('admin_menu_edit',{id:menu.id}) }}">Editer</a>
-<form method="post" action="{{ path('admin_menu_delete',{id:menu.id}) }}" style="display:inline;" onsubmit="return confirm('Supprimer ?');">
+<a class="btn-mini btn-mini-primary" href="{{ path('admin_menu_edit',{id:menu.id}) }}">Edit</a>
+<form method="post" action="{{ path('admin_menu_delete',{id:menu.id}) }}">
 <input type="hidden" name="_token" value="{{ csrf_token('delete_menu_' ~ menu.id) }}">
-<button class="btn-mini btn-mini-danger">Supprimer</button>
+<button class="btn-mini btn-mini-danger">Suppr</button>
 </form>
 </div>
 </td>
@@ -315,33 +285,27 @@ tbody td{
 {% for menu in menus %}
 {% set stock = menu.stock ?? 0 %}
 <div class="card-item menu-card" data-name="{{ menu.name|lower }}">
-{% if menu.image %}
-<img class="img" src="{{ absolute_url(asset('uploads/' ~ menu.image)) }}" alt="">
+{% if menu.imageUrl %}
+<img class="img" src="{{ absolute_url(menu.imageUrl) }}">
 {% else %}
-<img class="img" src="{{ absolute_url(asset('uploads/default.jpg')) }}" alt="">
+<img class="img" src="{{ absolute_url('/uploads/default.jpg') }}">
 {% endif %}
 <div style="flex:1;">
 <h3>{{ menu.name }}</h3>
 <p>€{{ menu.price }}</p>
-<div class="card-meta">
-{% if stock == 0 %}
-<span class="badge badge-danger">Rupture</span>
-{% elseif stock < 5 %}
-<span class="badge badge-warn">{{ stock }}</span>
-{% else %}
-<span class="badge badge-success">{{ stock }}</span>
-{% endif %}
-{% if menu.isActive %}
-<span class="badge badge-success">Actif</span>
-{% else %}
-<span class="badge badge-muted">Inactif</span>
-{% endif %}
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
+<span class="badge {% if stock == 0 %}badge-danger{% elseif stock < 5 %}badge-warn{% else %}badge-success{% endif %}">
+{{ stock }}
+</span>
+<span class="badge {{ menu.isActive ? 'badge-success' : 'badge-muted' }}">
+{{ menu.isActive ? 'Actif' : 'Inactif' }}
+</span>
 </div>
-<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
-<a class="btn-mini btn-mini-primary" href="{{ path('admin_menu_edit',{id:menu.id}) }}">Editer</a>
-<form method="post" action="{{ path('admin_menu_delete',{id:menu.id}) }}" style="display:inline;" onsubmit="return confirm('Supprimer ?');">
+<div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;">
+<a class="btn-mini btn-mini-primary" href="{{ path('admin_menu_edit',{id:menu.id}) }}">Edit</a>
+<form method="post" action="{{ path('admin_menu_delete',{id:menu.id}) }}">
 <input type="hidden" name="_token" value="{{ csrf_token('delete_menu_' ~ menu.id) }}">
-<button class="btn-mini btn-mini-danger">Supprimer</button>
+<button class="btn-mini btn-mini-danger">Suppr</button>
 </form>
 </div>
 </div>
@@ -358,15 +322,10 @@ tbody td{
 const input=document.getElementById('menuSearch');
 const rows=document.querySelectorAll('.menu-row');
 const cards=document.querySelectorAll('.menu-card');
-
 function filter(){
 const q=(input.value||'').toLowerCase();
-rows.forEach(r=>{
-r.style.display=(r.dataset.name||'').includes(q)?'':'none';
-});
-cards.forEach(c=>{
-c.style.display=(c.dataset.name||'').includes(q)?'':'none';
-});
+rows.forEach(r=>r.style.display=(r.dataset.name||'').includes(q)?'':'none');
+cards.forEach(c=>c.style.display=(c.dataset.name||'').includes(q)?'':'none');
 }
 input?.addEventListener('input',filter);
 })();
