@@ -19,43 +19,42 @@
 
         .card-custom {
             border: 0;
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.07);
+            padding: 30px 25px;
             background: #ffffff;
-            transition: all 0.3s ease;
-        }
-
-        .card-custom:hover {
-            transform: translateY(-4px);
+            max-width: 720px;
+            margin: auto;
         }
 
         .title {
             font-weight: 700;
-            font-size: 28px;
-            margin-bottom: 35px;
+            font-size: 22px;
+            margin-bottom: 25px;
             text-align: center;
             color: #1f2937;
         }
 
         label {
             font-weight: 600;
+            font-size: 14px;
             text-align: center;
             width: 100%;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
 
         .form-control {
-            border-radius: 12px;
-            padding: 12px;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 14px;
         }
 
         .btn-custom {
             width: 100%;
-            padding: 14px;
-            border-radius: 14px;
+            padding: 10px;
+            border-radius: 10px;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 14px;
             background: linear-gradient(90deg, #2563eb, #1d4ed8);
             border: none;
             color: #fff;
@@ -64,18 +63,19 @@
 
         .btn-custom:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(37,99,235,0.3);
+            box-shadow: 0 8px 20px rgba(37,99,235,0.25);
         }
 
         .image-preview {
             width: 100%;
-            height: 250px;
-            border-radius: 16px;
+            height: 160px;
+            border-radius: 12px;
             background: #f3f4f6;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            font-size: 13px;
         }
 
         .image-preview img {
@@ -86,16 +86,12 @@
 
         @media (max-width: 768px) {
             .card-custom {
-                padding: 30px 20px;
-            }
-
-            .title {
-                font-size: 22px;
+                padding: 20px 15px;
             }
 
             .image-preview {
-                height: 200px;
-                margin-bottom: 25px;
+                height: 140px;
+                margin-bottom: 15px;
             }
         }
     </style>
@@ -103,29 +99,29 @@
 <body>
 
 <div class="container-fluid form-wrapper d-flex align-items-center justify-content-center">
-    <div class="col-xl-8 col-lg-9 col-md-11 col-11">
+    <div class="w-100">
         <div class="card card-custom">
 
             <div class="title">
                 Nouveau menu
             </div>
 
-            <div class="row g-4 align-items-start">
+            <div class="row g-3 align-items-start">
 
-                <!-- Preview Imagem -->
-                <div class="col-md-5">
+                <!-- Preview -->
+                <div class="col-md-4">
                     <div class="image-preview" id="previewContainer">
                         <span class="text-muted">Pré-visualização</span>
                     </div>
                 </div>
 
-                <!-- Formulário -->
-                <div class="col-md-7">
+                <!-- Form -->
+                <div class="col-md-8">
 
                     {{ form_start(form) }}
 
                         {% for field in form %}
-                            <div class="mb-3 text-center">
+                            <div class="mb-2 text-center">
                                 {{ form_label(field) }}
                                 {{ form_widget(field, {
                                     attr: { class: 'form-control' }
@@ -134,7 +130,7 @@
                             </div>
                         {% endfor %}
 
-                        <button type="submit" class="btn btn-custom mt-3">
+                        <button type="submit" class="btn btn-custom mt-2">
                             Enregistrer
                         </button>
 
@@ -149,26 +145,25 @@
 </div>
 
 <script>
-    // Preview automática da imagem
-    document.addEventListener("DOMContentLoaded", function () {
-        const input = document.querySelector('input[type="file"]');
-        const previewContainer = document.getElementById('previewContainer');
+document.addEventListener("DOMContentLoaded", function () {
+    const input = document.querySelector('input[type="file"]');
+    const previewContainer = document.getElementById('previewContainer');
 
-        if (input) {
-            input.addEventListener("change", function () {
-                const file = this.files[0];
+    if (input) {
+        input.addEventListener("change", function () {
+            const file = this.files[0];
 
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        previewContainer.innerHTML =
-                            `<img src="${e.target.result}" alt="Preview">`;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-        }
-    });
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewContainer.innerHTML =
+                        `<img src="${e.target.result}" alt="Preview">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+});
 </script>
 
 </body>
