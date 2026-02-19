@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Nouveau menu</title>
 
-    {% form_theme form 'bootstrap_5_layout.html.twig' %}
-
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -14,157 +13,84 @@
             background: linear-gradient(135deg, #eef2f7, #dbe4f3);
         }
 
-        .wrapper {
+        .form-wrapper {
             min-height: 100vh;
         }
 
         .card-custom {
-            border-radius: 22px;
-            box-shadow: 0 25px 70px rgba(0,0,0,0.08);
-            padding: 45px;
+            border: 0;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            padding: 50px 40px;
             background: #ffffff;
+            transition: all 0.3s ease;
         }
 
-        h1 {
-            text-align: center;
+        .card-custom:hover {
+            transform: translateY(-4px);
+        }
+
+        .title {
             font-weight: 700;
+            font-size: 28px;
             margin-bottom: 35px;
+            text-align: center;
             color: #1f2937;
         }
 
-        /* Centralizar labels corretamente */
-        .form-label {
-            text-align: center;
-            font-weight: 600;
-            display: block;
-            margin-bottom: 8px;
-            width: 100%;
-        }
-
-        /* Garantir que inputs não saiam da box */
-        .form-control {
-            border-radius: 14px;
-            padding: 10px 15px;
-            text-align: center;
-        }
-
-        textarea.form-control {
-            text-align: left;
-        }
-
-        .preview-container {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .preview-container img {
-            width: 140px;
-            height: 110px;
-            object-fit: cover;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .btn-primary-custom {
+        .btn-custom {
             width: 100%;
             padding: 14px;
             border-radius: 14px;
             font-weight: 600;
+            font-size: 16px;
             background: linear-gradient(90deg, #2563eb, #1d4ed8);
             border: none;
             color: #fff;
             transition: 0.3s ease;
         }
 
-        .btn-primary-custom:hover {
+        .btn-custom:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(37,99,235,0.3);
         }
 
-        .btn-back {
-            border-radius: 14px;
-            font-weight: 600;
-        }
-
         @media (max-width: 576px) {
             .card-custom {
-                padding: 25px;
+                padding: 30px 20px;
+            }
+
+            .title {
+                font-size: 22px;
             }
         }
     </style>
 </head>
 <body>
 
-<div class="container wrapper d-flex align-items-center justify-content-center">
-    <div class="col-xl-5 col-lg-6 col-md-8 col-11">
+<div class="container-fluid form-wrapper d-flex align-items-center justify-content-center">
+    <div class="col-xl-4 col-lg-5 col-md-7 col-11">
         <div class="card card-custom">
 
-            <h1>Nouveau menu</h1>
+            <div class="title">
+                Nouveau menu
+            </div>
 
-            {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+            {{ form_start(form) }}
 
-                <div class="mb-3">
-                    {{ form_label(form.name) }}
-                    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-                </div>
+                {{ form_widget(form, {
+                    attr: { class: 'form-control mb-3' }
+                }) }}
 
-                <div class="mb-3">
-                    {{ form_label(form.description) }}
-                    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
-                </div>
-
-                <div class="mb-3">
-                    {{ form_label(form.images) }}
-                    {{ form_widget(form.images, {'attr': {'class': 'form-control', 'id': 'imageInput'}}) }}
-                </div>
-
-                <div class="preview-container" id="preview"></div>
-
-                <button type="submit" class="btn btn-primary-custom mt-4">
+                <button type="submit" class="btn btn-custom mt-3">
                     Enregistrer
                 </button>
-
-                <a href="{{ path('admin_menu_index') }}" class="btn btn-outline-secondary btn-back w-100 mt-3">
-                    ← Retornar
-                </a>
 
             {{ form_end(form) }}
 
         </div>
     </div>
 </div>
-
-<script>
-const input = document.getElementById('imageInput');
-
-if (input) {
-    input.addEventListener('change', function(event) {
-        const preview = document.getElementById('preview');
-        preview.innerHTML = '';
-
-        const files = event.target.files;
-
-        if (files.length > 3) {
-            alert("Você pode selecionar no máximo 3 imagens.");
-            event.target.value = "";
-            return;
-        }
-
-        for (let i = 0; i < files.length; i++) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                preview.appendChild(img);
-            }
-            reader.readAsDataURL(files[i]);
-        }
-    });
-}
-</script>
 
 </body>
 </html>
