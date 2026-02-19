@@ -303,7 +303,6 @@ body{
 }
 
 
-
 /* =====================================================
    NAV LIMPO E FUNCIONAL
 ===================================================== */
@@ -337,7 +336,10 @@ header{
   text-decoration:none;
 }
 
-/* LINKS DESKTOP */
+/* =========================
+   LINKS DESKTOP
+========================= */
+
 .nav-center{
   display:flex;
 }
@@ -349,16 +351,19 @@ header{
   align-items:center;
 }
 
-.nav-center a{
-  position:relative;
+.nav-link{
+  display:flex;
+  align-items:center;
+  gap:8px;
   text-decoration:none;
   color:var(--text);
   padding:8px 6px;
   font-weight:500;
   transition:.25s;
+  position:relative;
 }
 
-.nav-center a::after{
+.nav-link::after{
   content:"";
   position:absolute;
   left:0;
@@ -370,14 +375,21 @@ header{
   transition:.3s;
 }
 
-.nav-center a:hover::after,
-.nav-center a.active::after{
+.nav-link:hover::after,
+.nav-link.active::after{
   width:100%;
 }
 
-.nav-center a:hover{
+.nav-link:hover{
   color:var(--accent);
 }
+
+/* =========================
+   ICONES
+========================= */
+
+.nav-icon{ display:none; }
+.nav-text{ display:inline; }
 
 /* =========================
    HAMBURGER
@@ -408,9 +420,9 @@ header{
   transform:translateY(-8px) rotate(-45deg);
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* =====================================================
+   MOBILE HORIZONTAL COM ÍCONES
+===================================================== */
 
 @media (max-width:900px){
 
@@ -418,94 +430,54 @@ header{
     display:flex;
   }
 
-  .nav-center{
+  /* esconder logo quando aberto */
+  .main-nav.menu-open .nav-left{
     display:none;
-    position:absolute;
-    top:100%;
-    left:0;
-    width:100%;
-    background:#fff;
-    border-radius:12px;
-    box-shadow:0 12px 25px rgba(0,0,0,.15);
-    padding:20px 0;
   }
 
+  /* esconder texto */
+  .nav-text{
+    display:none;
+  }
+
+  /* mostrar ícones */
+  .nav-icon{
+    display:inline;
+    font-size:20px;
+  }
+
+  /* nav começa escondido */
+  .nav-center{
+    display:none;
+  }
+
+  /* quando ativo → horizontal */
   .nav-center.active{
-    display:block;
+    display:flex;
   }
 
   .nav-center ul{
-    flex-direction:column;
+    flex-direction:row;
     align-items:center;
-    gap:20px;
+    gap:14px;
+  }
+
+  .nav-link{
+    width:44px;
+    height:44px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .nav-link:hover{
+    background:rgba(0,0,0,.06);
   }
 
   .user-name{
     display:none;
   }
-
 }
 
-
-/* ===== NAV ICONES ===== */
-
-.nav-icon{ display:none; }
-.nav-text{ display:inline; }
-
-.nav-link{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-/* MOBILE */
-@media (max-width:900px){
-
-  .nav-text{ display:none; }
-  .nav-icon{
-    display:inline;
-    font-size:20px;
-  }
-
-  .nav-link{
-    width:44px;
-    height:44px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-}
-
-
-/* ===== NAV ICON SYSTEM ===== */
-
-.nav-icon{ display:none; }
-.nav-text{ display:inline; }
-
-.nav-link{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-/* MOBILE */
-@media (max-width:900px){
-
-  .nav-text{ display:none; }
-
-  .nav-icon{
-    display:inline;
-    font-size:20px;
-  }
-
-  .nav-link{
-    width:44px;
-    height:44px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-}
 
