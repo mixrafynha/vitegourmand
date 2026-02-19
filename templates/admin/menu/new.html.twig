@@ -57,7 +57,7 @@
             box-shadow: 0 0 0 0.15rem rgba(37, 99, 235, 0.25);
         }
 
-        /* Bouton toggle Actif */
+        /* Toggle Actif */
         .btn-toggle {
             width: 100%;
             border-radius: 8px;
@@ -66,16 +66,15 @@
             font-weight: 600;
             border: none;
             transition: all 0.2s ease;
+            color: white;
         }
 
         .btn-actif {
             background-color: #16a34a;
-            color: white;
         }
 
         .btn-inactif {
             background-color: #dc2626;
-            color: white;
         }
 
         .btn-toggle:active {
@@ -116,6 +115,7 @@
             object-fit: cover;
         }
 
+        /* MOBILE */
         @media (max-width: 768px) {
 
             body {
@@ -167,25 +167,30 @@
 
                     {{ form_start(form) }}
 
+                        {# Tous les champs sauf actif #}
                         {% for field in form %}
                             {% if field.vars.name != 'actif' %}
                                 <div class="mb-3">
                                     {{ form_label(field) }}
-                                    {{ form_widget(field, {
-                                        attr: { class: 'form-control' }
-                                    }) }}
+                                    {{ form_widget(field, { attr: { class: 'form-control' } }) }}
                                     {{ form_errors(field) }}
                                 </div>
                             {% endif %}
                         {% endfor %}
 
-                        <!-- Bouton Actif -->
+                        {# Champ Actif personnalisé #}
                         <div class="mb-3">
-                            <label>Statut</label>
-                            <button type="button" id="toggleActif" class="btn-toggle btn-inactif">
-                                Inactif
+                            {{ form_label(form.actif) }}
+
+                            <div class="d-none">
+                                {{ form_widget(form.actif) }}
+                            </div>
+
+                            <button type="button"
+                                    id="toggleActif"
+                                    class="btn-toggle {{ form.actif.vars.value ? 'btn-actif' : 'btn-inactif' }}">
+                                {{ form.actif.vars.value ? 'Actif' : 'Inactif' }}
                             </button>
-                            {{ form_widget(form.actif, { attr: { type: 'hidden', id: 'inputActif' } }) }}
                         </div>
 
                         <button type="submit" class="btn-submit">
@@ -223,27 +228,28 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Toggle Actif
+    // Toggle Actif sécurisé
     const toggleBtn = document.getElementById("toggleActif");
-    const inputActif = document.getElementById("inputActif");
+    const checkbox = document.querySelector('input[name$="[actif]"]');
 
-    let actif = false;
+    if (toggleBtn && checkbox) {
 
-    toggleBtn.addEventListener("click", function () {
-        actif = !actif;
+        toggleBtn.addEventListener("click", function () {
 
-        if (actif) {
-            toggleBtn.classList.remove("btn-inactif");
-            toggleBtn.classList.add("btn-actif");
-            toggleBtn.textContent = "Actif";
-            inputActif.value = 1;
-        } else {
-            toggleBtn.classList.remove("btn-actif");
-            toggleBtn.classList.add("btn-inactif");
-            toggleBtn.textContent = "Inactif";
-            inputActif.value = 0;
-        }
-    });
+            checkbox.checked = !checkbox.checked;
+
+            if (checkbox.checked) {
+                toggleBtn.classList.remove("btn-inactif");
+                toggleBtn.classList.add("btn-actif");
+                toggleBtn.textContent = "Actif";
+            } else {
+                toggleBtn.classList.remove("btn-actif");
+                toggleBtn.classList.add("btn-inactif");
+                toggleBtn.textContent = "Inactif";
+            }
+        });
+    }
+
 });
 </script>
 
