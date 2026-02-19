@@ -3,6 +3,9 @@ FROM dunglas/frankenphp:latest
 ENV APP_ENV=prod
 ENV APP_DEBUG=0
 
+# 🔥 IMPORTANTE — adicionar DATABASE_URL no build
+ENV DATABASE_URL="mysql://app:password@db:3306/app?serverVersion=8.0"
+
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
@@ -13,7 +16,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 RUN chown -R www-data:www-data var
 
 EXPOSE 8080
