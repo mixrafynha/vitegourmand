@@ -556,14 +556,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const userAvatar= document.getElementById("userAvatar");
 
   /* ===== HAMBURGER ===== */
-  if (hamburger) {
-    hamburger.addEventListener("click", () => {
-      hamburger.classList.toggle("active");
-      navMenu.classList.toggle("active");
-      mainNav.classList.toggle("menu-open");
-    });
-  }
+  hamburger?.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    navMenu.classList.toggle("active");
+    mainNav.classList.toggle("menu-open");
+  });
 
+  /* Fecha ao clicar fora */
   document.addEventListener("click", (e) => {
     if (!mainNav.contains(e.target)) {
       hamburger?.classList.remove("active");
@@ -573,13 +572,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  /* ===== AVATAR DROPDOWN ===== */
+  /* ===== AVATAR ===== */
   userBtn?.addEventListener("click", (e) => {
     e.stopPropagation();
     userMenu.classList.toggle("open");
   });
 
-  /* ===== AUTH CHECK ===== */
+  /* ===== AUTH ===== */
   async function checkAuth(){
     try{
       const res = await fetch('/api/me', {
@@ -614,6 +613,7 @@ document.addEventListener("DOMContentLoaded", () => {
   checkAuth();
 });
 </script>
+
 
 
 
