@@ -478,3 +478,33 @@ header{
 }
 
 
+/* ===== NAV ICON SYSTEM ===== */
+
+.nav-icon{ display:none; }
+.nav-text{ display:inline; }
+
+.nav-link{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* MOBILE */
+@media (max-width:900px){
+
+  .nav-text{ display:none; }
+
+  .nav-icon{
+    display:inline;
+    font-size:20px;
+  }
+
+  .nav-link{
+    width:44px;
+    height:44px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+}
