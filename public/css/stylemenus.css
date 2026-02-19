@@ -447,22 +447,25 @@ header{
 }
 
 
-/* ===== Ícones no NAV (igual Accueil) ===== */
+/* ===== NAV ICONES ===== */
+
 .nav-icon{ display:none; }
 .nav-text{ display:inline; }
 
-/* estilo “botão” para os links (igual index) */
 .nav-link{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:8px;
 }
 
-/* MOBILE: mostra só ícones */
+/* MOBILE */
 @media (max-width:900px){
 
   .nav-text{ display:none; }
-  .nav-icon{ display:inline; font-size:20px; }
+  .nav-icon{
+    display:inline;
+    font-size:20px;
+  }
 
   .nav-link{
     width:44px;
@@ -473,4 +476,5 @@ header{
     justify-content:center;
   }
 }
+
 
