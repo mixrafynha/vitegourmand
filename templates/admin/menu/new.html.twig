@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,31 +36,17 @@
             color: #1f2937;
         }
 
-        /* Labels alinhadas à esquerda */
         label {
             font-weight: 600;
             font-size: 13px;
-            display: block;
-            text-align: left;
+            text-align: center;
+            width: 100%;
             margin-bottom: 4px;
         }
 
         .form-control {
             border-radius: 8px;
             padding: 6px 10px;
-            font-size: 13px;
-        }
-
-        .form-check {
-            padding-left: 1.6em;
-        }
-
-        .form-check-input {
-            cursor: pointer;
-        }
-
-        .form-check-label {
-            cursor: pointer;
             font-size: 13px;
         }
 
@@ -130,10 +116,10 @@
                 margin-bottom: 8px;
             }
 
-            .mb-2,
-            .mb-3 {
-                margin-bottom: 8px !important;
+            .mb-2 {
+                margin-bottom: 6px !important;
             }
+
         }
     </style>
 </head>
@@ -152,7 +138,7 @@
                 <!-- Preview -->
                 <div class="col-md-4">
                     <div class="image-preview" id="previewContainer">
-                        <span class="text-muted">Aperçu</span>
+                        <span class="text-muted">Pré-visualização</span>
                     </div>
                 </div>
 
@@ -162,21 +148,13 @@
                     {{ form_start(form) }}
 
                         {% for field in form %}
-
-                            {% if field.vars.block_prefixes[1] == 'checkbox' %}
-                                <div class="mb-3 form-check">
-                                    {{ form_widget(field, { attr: { class: 'form-check-input' } }) }}
-                                    {{ form_label(field, null, { label_attr: { class: 'form-check-label' } }) }}
-                                    {{ form_errors(field) }}
-                                </div>
-                            {% else %}
-                                <div class="mb-2">
-                                    {{ form_label(field) }}
-                                    {{ form_widget(field, { attr: { class: 'form-control' } }) }}
-                                    {{ form_errors(field) }}
-                                </div>
-                            {% endif %}
-
+                            <div class="mb-2 text-center">
+                                {{ form_label(field) }}
+                                {{ form_widget(field, {
+                                    attr: { class: 'form-control' }
+                                }) }}
+                                {{ form_errors(field) }}
+                            </div>
                         {% endfor %}
 
                         <button type="submit" class="btn btn-custom mt-2">
