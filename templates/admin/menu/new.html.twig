@@ -38,6 +38,18 @@
             color: #1f2937;
         }
 
+        label {
+            font-weight: 600;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            border-radius: 12px;
+            padding: 12px;
+        }
+
         .btn-custom {
             width: 100%;
             padding: 14px;
@@ -55,7 +67,24 @@
             box-shadow: 0 10px 25px rgba(37,99,235,0.3);
         }
 
-        @media (max-width: 576px) {
+        .image-preview {
+            width: 100%;
+            height: 250px;
+            border-radius: 16px;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
             .card-custom {
                 padding: 30px 20px;
             }
@@ -63,34 +92,84 @@
             .title {
                 font-size: 22px;
             }
+
+            .image-preview {
+                height: 200px;
+                margin-bottom: 25px;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container-fluid form-wrapper d-flex align-items-center justify-content-center">
-    <div class="col-xl-4 col-lg-5 col-md-7 col-11">
+    <div class="col-xl-8 col-lg-9 col-md-11 col-11">
         <div class="card card-custom">
 
             <div class="title">
                 Nouveau menu
             </div>
 
-            {{ form_start(form) }}
+            <div class="row g-4 align-items-start">
 
-                {{ form_widget(form, {
-                    attr: { class: 'form-control mb-3' }
-                }) }}
+                <!-- Preview Imagem -->
+                <div class="col-md-5">
+                    <div class="image-preview" id="previewContainer">
+                        <span class="text-muted">Pré-visualização</span>
+                    </div>
+                </div>
 
-                <button type="submit" class="btn btn-custom mt-3">
-                    Enregistrer
-                </button>
+                <!-- Formulário -->
+                <div class="col-md-7">
 
-            {{ form_end(form) }}
+                    {{ form_start(form) }}
+
+                        {% for field in form %}
+                            <div class="mb-3 text-center">
+                                {{ form_label(field) }}
+                                {{ form_widget(field, {
+                                    attr: { class: 'form-control' }
+                                }) }}
+                                {{ form_errors(field) }}
+                            </div>
+                        {% endfor %}
+
+                        <button type="submit" class="btn btn-custom mt-3">
+                            Enregistrer
+                        </button>
+
+                    {{ form_end(form) }}
+
+                </div>
+
+            </div>
 
         </div>
     </div>
 </div>
+
+<script>
+    // Preview automática da imagem
+    document.addEventListener("DOMContentLoaded", function () {
+        const input = document.querySelector('input[type="file"]');
+        const previewContainer = document.getElementById('previewContainer');
+
+        if (input) {
+            input.addEventListener("change", function () {
+                const file = this.files[0];
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        previewContainer.innerHTML =
+                            `<img src="${e.target.result}" alt="Preview">`;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    });
+</script>
 
 </body>
 </html>
