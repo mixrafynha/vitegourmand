@@ -19,43 +19,56 @@
         }
 
         .card-custom {
-            border: 0;
-            border-radius: 25px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-            padding: 50px 40px;
-            background: #fff;
+            border-radius: 22px;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.08);
+            padding: 45px;
+            background: #ffffff;
         }
 
         h1 {
             text-align: center;
             font-weight: 700;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
+            color: #1f2937;
         }
 
-        /* Centralizar labels */
+        /* Centralizar labels corretamente */
         .form-label {
-            display: block;
             text-align: center;
             font-weight: 600;
+            display: block;
             margin-bottom: 8px;
-        }
-
-        /* Centralizar inputs */
-        .form-control {
-            text-align: center;
-            border-radius: 12px;
-        }
-
-        /* Galeria de fotos */
-        .photo-preview {
             width: 100%;
-            height: 160px;
-            border-radius: 15px;
-            object-fit: cover;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
         }
 
-        .btn-custom {
+        /* Garantir que inputs não saiam da box */
+        .form-control {
+            border-radius: 14px;
+            padding: 10px 15px;
+            text-align: center;
+        }
+
+        textarea.form-control {
+            text-align: left;
+        }
+
+        .preview-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .preview-container img {
+            width: 140px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary-custom {
             width: 100%;
             padding: 14px;
             border-radius: 14px;
@@ -63,55 +76,95 @@
             background: linear-gradient(90deg, #2563eb, #1d4ed8);
             border: none;
             color: #fff;
-            transition: 0.3s;
+            transition: 0.3s ease;
         }
 
-        .btn-custom:hover {
+        .btn-primary-custom:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(37,99,235,0.3);
         }
 
+        .btn-back {
+            border-radius: 14px;
+            font-weight: 600;
+        }
+
         @media (max-width: 576px) {
             .card-custom {
-                padding: 30px 20px;
+                padding: 25px;
             }
         }
     </style>
 </head>
 <body>
 
-<div class="container-fluid wrapper d-flex align-items-center justify-content-center">
+<div class="container wrapper d-flex align-items-center justify-content-center">
     <div class="col-xl-5 col-lg-6 col-md-8 col-11">
         <div class="card card-custom">
 
             <h1>Nouveau menu</h1>
 
-            {{ form_start(form) }}
+            {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
 
-                {{ form_widget(form) }}
-
-                <!-- Área de até 3 fotos -->
-                <div class="row mt-4 text-center">
-                    <div class="col-md-4 col-12 mb-3">
-                        <img src="https://via.placeholder.com/300x200" class="photo-preview" alt="Foto 1">
-                    </div>
-                    <div class="col-md-4 col-12 mb-3">
-                        <img src="https://via.placeholder.com/300x200" class="photo-preview" alt="Foto 2">
-                    </div>
-                    <div class="col-md-4 col-12 mb-3">
-                        <img src="https://via.placeholder.com/300x200" class="photo-preview" alt="Foto 3">
-                    </div>
+                <div class="mb-3">
+                    {{ form_label(form.name) }}
+                    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
                 </div>
 
-                <button type="submit" class="btn btn-custom mt-4">
+                <div class="mb-3">
+                    {{ form_label(form.description) }}
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.images) }}
+                    {{ form_widget(form.images, {'attr': {'class': 'form-control', 'id': 'imageInput'}}) }}
+                </div>
+
+                <div class="preview-container" id="preview"></div>
+
+                <button type="submit" class="btn btn-primary-custom mt-4">
                     Enregistrer
                 </button>
+
+                <a href="{{ path('admin_menu_index') }}" class="btn btn-outline-secondary btn-back w-100 mt-3">
+                    ← Retornar
+                </a>
 
             {{ form_end(form) }}
 
         </div>
     </div>
 </div>
+
+<script>
+const input = document.getElementById('imageInput');
+
+if (input) {
+    input.addEventListener('change', function(event) {
+        const preview = document.getElementById('preview');
+        preview.innerHTML = '';
+
+        const files = event.target.files;
+
+        if (files.length > 3) {
+            alert("Você pode selecionar no máximo 3 imagens.");
+            event.target.value = "";
+            return;
+        }
+
+        for (let i = 0; i < files.length; i++) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                preview.appendChild(img);
+            }
+            reader.readAsDataURL(files[i]);
+        }
+    });
+}
+</script>
 
 </body>
 </html>
