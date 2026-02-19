@@ -260,10 +260,27 @@
 
       <div class="nav-center" id="nav-menu">
         <ul class="nav-links">
-          <li><a href="{{ path('app_home') }}">Accueil</a></li>
-          <li><a href="{{ path('app_menu') }}" class="active">Menus</a></li>
-          <li><a href="{{ path('app_contact') }}">Contact</a></li>
-          <span></span>
+
+          <li>
+            <a href="{{ path('app_home') }}" class="nav-link">
+              <span class="nav-text">Accueil</span>
+              <span class="nav-icon">🏠</span>
+            </a>
+          </li>
+          
+          <li>
+            <a href="{{ path('app_menu') }}" class="active nav-link">
+              <span class="nav-text">Menus</span>
+              <span class="nav-icon">🍽️</span>
+            </a>
+          </li>
+          
+          <li>
+            <a href="{{ path('app_contact') }}" class="nav-link">
+              <span class="nav-text">Contact</span>
+              <span class="nav-icon">📞</span>
+            </a>
+          </li>
 
           {# ✅ Botão carrinho NO NAV (aparece quando tem itens) #}
           <li id="nav-cart-item" style="display:none;">
