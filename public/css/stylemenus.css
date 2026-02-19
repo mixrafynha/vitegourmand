@@ -480,4 +480,53 @@ header{
   }
 }
 
+@media (max-width:900px){
+
+  /* quando menu aberto → centraliza tudo */
+  .main-nav.menu-open{
+    justify-content:center;
+  }
+
+  /* nav ocupa toda largura e centraliza */
+  .nav-center.active{
+    display:flex;
+    justify-content:center;
+    width:100%;
+  }
+
+  .nav-center ul{
+    justify-content:center;
+  }
+
+}
+
+@media (max-width:900px){
+
+  .nav-user{
+    display:flex;
+  }
+
+  .user-btn{
+    padding:0;
+    width:44px;
+    height:44px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .user-avatar{
+    width:28px;
+    height:28px;
+    font-size:12px;
+  }
+
+  .user-name,
+  .user-caret{
+    display:none;
+  }
+
+}
+
 
