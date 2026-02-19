@@ -523,6 +523,81 @@
     });
   });
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const hamburger = document.getElementById("hamburger");
+  const navMenu   = document.getElementById("nav-menu");
+  const mainNav   = document.querySelector(".main-nav");
+
+  const loginItem = document.getElementById("nav-login-item");
+  const userItem  = document.getElementById("nav-user-item");
+
+  const userBtn   = document.getElementById("userBtn");
+  const userMenu  = document.getElementById("userMenu");
+  const userName  = document.getElementById("userName");
+  const userAvatar= document.getElementById("userAvatar");
+
+  /* ===== HAMBURGER ===== */
+  if (hamburger) {
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("active");
+      navMenu.classList.toggle("active");
+      mainNav.classList.toggle("menu-open");
+    });
+  }
+
+  document.addEventListener("click", (e) => {
+    if (!mainNav.contains(e.target)) {
+      hamburger?.classList.remove("active");
+      navMenu?.classList.remove("active");
+      mainNav?.classList.remove("menu-open");
+      userMenu?.classList.remove("open");
+    }
+  });
+
+  /* ===== AVATAR DROPDOWN ===== */
+  userBtn?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    userMenu.classList.toggle("open");
+  });
+
+  /* ===== AUTH CHECK ===== */
+  async function checkAuth(){
+    try{
+      const res = await fetch('/api/me', {
+        credentials:'include',
+        headers:{'Accept':'application/json'}
+      });
+
+      if(!res.ok){
+        loginItem.style.display = '';
+        userItem.style.display  = 'none';
+        return;
+      }
+
+      const me = await res.json();
+
+      loginItem.style.display = 'none';
+      userItem.style.display  = '';
+
+      const name = me.firstName
+        ? me.firstName + (me.lastName ? ' ' + me.lastName : '')
+        : (me.email || 'Utilisateur');
+
+      userName.textContent = name;
+      userAvatar.textContent = name.charAt(0).toUpperCase();
+
+    }catch(e){
+      loginItem.style.display = '';
+      userItem.style.display  = 'none';
+    }
+  }
+
+  checkAuth();
+});
+</script>
+
 
 
   {# ✅ Só scripts no fim #}
